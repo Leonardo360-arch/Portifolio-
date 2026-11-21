@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    ports: ["8080:80"]
+    ports: ["${WEB_PORT:-8080}:80"]
     volumes: ["./:/var/www/html"]
     environment:
       XDEBUG_MODE: ${XDEBUG_MODE:-off}
@@ -28,13 +28,13 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:5
-    ports: ["8081:80"]
+    ports: ["${PMA_PORT:-8081}:80"]
     environment: { PMA_HOST: db }
     depends_on: [db]
 
   mailpit:
     image: axllent/mailpit
-    ports: ["8025:8025"]
+    ports: ["${MAILPIT_PORT:-8025}:8025"]
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: "1"
       MP_SMTP_AUTH_ALLOW_INSECURE: "1"
