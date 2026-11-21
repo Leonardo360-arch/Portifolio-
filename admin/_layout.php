@@ -22,7 +22,7 @@ function admin_header(string $titulo): void
 <link rel="stylesheet" href="../assets/css/themes.css"><link rel="stylesheet" href="../assets/css/style.css">
 <script src="../assets/js/themes.js"></script></head><body>
 <header class="container admin-nav">
-  <a href="dashboard.php">Painel</a><a href="projetos.php">Projetos</a><a href="../index.php" target="_blank" rel="noopener">Ver site</a>
+  <a href="dashboard.php">Painel</a><a href="projetos.php">Projetos</a><a href="configuracoes.php">Configurações</a><a href="../index.php" target="_blank" rel="noopener">Ver site</a>
   <form method="post" action="logout.php"><?= csrf_field() ?><button class="btn">Sair</button></form>
 </header>
 <main class="container admin" style="padding-bottom:4rem">

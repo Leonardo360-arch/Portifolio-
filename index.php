@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/security.php';
+require_once __DIR__ . '/config/settings.php';
 send_security_headers();
 secure_session(); // antes de qualquer saida HTML: o CSRF do formulario depende do cookie de sessao
 
@@ -15,12 +16,12 @@ try {
     $cursos = $db->query('SELECT titulo, instituicao, carga_horaria FROM cursos WHERE ativo = 1 ORDER BY ordem, id')->fetchAll();
 } catch (Throwable $e) { error_log('index: ' . $e->getMessage()); }
 
-$wa = 'https://wa.me/5519978175868?text=' . rawurlencode(
-    'Olá, Leonardo! Vi seu portfólio e gostaria de conversar sobre uma oportunidade/projeto.');
+$cfg = site_settings();
+$wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsapp_msg']);
 ?><!DOCTYPE html>
 <html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Leonardo Marson Coral — Desenvolvedor Full Stack</title>
+<title><?= e($cfg['hero_nome']) ?> — Desenvolvedor Full Stack</title>
 <meta name="description" content="Portfólio de Leonardo Marson Coral: projetos web, stack e repositórios.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -30,9 +31,9 @@ $wa = 'https://wa.me/5519978175868?text=' . rawurlencode(
 </head><body>
 
 <header class="container hero" style="padding:14vh 1.25rem 8vh">
-  <h1 style="font-size:clamp(2.2rem,6vw,4rem)">Leonardo Marson Coral</h1>
+  <h1 style="font-size:clamp(2.2rem,6vw,4rem)"><?= e($cfg['hero_nome']) ?></h1>
   <p style="max-width:56ch;font-size:1.15rem;color:var(--muted)">
-    Desenvolvedor Full Stack e estudante de DSM na FATEC Araras. Crio sistemas web completos, do banco de dados à interface.</p>
+    <?= e($cfg['hero_texto']) ?></p>
   <p style="display:flex;gap:.75rem;flex-wrap:wrap">
     <a class="btn" href="#projetos">Ver projetos</a>
     <a class="btn" href="<?= e($wa) ?>" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
@@ -89,6 +90,6 @@ $wa = 'https://wa.me/5519978175868?text=' . rawurlencode(
 </main>
 
 <footer class="container" style="padding:3rem 1.25rem;color:var(--muted)">
-  © <?= date('Y') ?> Leonardo Marson Coral · <a href="admin/" rel="nofollow" style="color:inherit">Área administrativa</a>
+  © <?= date('Y') ?> <?= e($cfg['hero_nome']) ?> · <a href="admin/" rel="nofollow" style="color:inherit">Área administrativa</a>
 </footer>
 </body></html>
