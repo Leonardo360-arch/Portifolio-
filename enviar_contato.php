@@ -50,7 +50,7 @@ $enviado = false;
 try {
     $user = env('SMTP_USER', ''); $pass = env('SMTP_PASS', ''); $to = env('MAIL_TO', $user);
     if ($user && $pass && $to) {
-        (new SmtpMailer(env('SMTP_HOST', 'smtp.gmail.com'), (int)env('SMTP_PORT', '587'), $user, $pass))
+        (new SmtpMailer(env('SMTP_HOST', 'smtp.gmail.com'), (int)env('SMTP_PORT', '587'), $user, $pass, env('SMTP_TLS', 'starttls') !== 'none'))
             ->send($to, 'Portfólio: ' . ($assunto ?: 'nova mensagem de ' . $nome),
                    "Nome: $nome\nE-mail: $email\nAssunto: " . ($assunto ?: '-') . "\n\n$mensagem", $email, $nome);
         $enviado = true;

@@ -18,7 +18,7 @@ Options -Indexes
 </IfModule>
 
 # Nao expor schema, exemplos de env nem documentacao
-<FilesMatch "\.(sql|md|example)$">
+<FilesMatch "\.(sql|md|example|yml|json|ini|sh|conf)$|^Dockerfile$">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>

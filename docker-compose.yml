@@ -1,0 +1,43 @@
+services:
+  web:
+    build: .
+    ports: ["8080:80"]
+    volumes: ["./:/var/www/html"]
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    depends_on:
+      db: { condition: service_healthy }
+      mailpit: { condition: service_started }
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: portfolio_lmc
+      MYSQL_USER: lmc
+      MYSQL_PASSWORD: lmc
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -proot --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    ports: ["8081:80"]
+    environment: { PMA_HOST: db }
+    depends_on: [db]
+
+  mailpit:
+    image: axllent/mailpit
+    ports: ["8025:8025"]
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
+volumes:
+  dbdata:

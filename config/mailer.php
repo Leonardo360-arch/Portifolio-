@@ -7,7 +7,7 @@ final class SmtpMailer
     /** @var resource|null */
     private $fp = null;
 
-    public function __construct(private string $host, private int $port, private string $user, private string $pass) {}
+    public function __construct(private string $host, private int $port, private string $user, private string $pass, private bool $tls = true) {}
 
     private function read(): array
     {
@@ -38,11 +38,13 @@ final class SmtpMailer
             if ($code !== 220) { throw new RuntimeException('Servidor SMTP não respondeu corretamente.'); }
             $me = 'localhost';
             $this->cmd("EHLO $me", [250]);
-            $this->cmd('STARTTLS', [220]);
-            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT)) {
-                throw new RuntimeException('Falha ao iniciar TLS.');
+            if ($this->tls) {
+                $this->cmd('STARTTLS', [220]);
+                if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT)) {
+                    throw new RuntimeException('Falha ao iniciar TLS.');
+                }
+                $this->cmd("EHLO $me", [250]);
             }
-            $this->cmd("EHLO $me", [250]);
             $this->cmd('AUTH LOGIN', [334]);
             $this->cmd(base64_encode($this->user), [334]);
             $this->cmd(base64_encode($this->pass), [235]);

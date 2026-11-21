@@ -9,6 +9,16 @@ PHP 8 + MySQL, pronto para InfinityFree. Autor: Leonardo Marson Coral (DSM, FATE
 4. Crie o admin: gere o hash com `php -r "echo password_hash('SENHA', PASSWORD_BCRYPT);"` e rode o INSERT comentado no fim do `schema.sql`.
 5. Acesse `/admin/login.php`, cadastre projetos, cursos e o PDF do curriculo.
 
+## Testes locais (Docker + VS Code)
+```
+cp .env.docker.example .env
+docker compose up -d --build
+docker compose exec web php docker/create-admin.php admin@teste.local Senha@123456
+docker compose exec web bash docker/smoke.sh
+```
+Site: http://localhost:8080 | phpMyAdmin: :8081 | Mailpit: :8025. Guia completo: documento 'Guia de Testes com Docker e VS Code'.
+Nao envie `Dockerfile`, `docker/` nem `.vscode/` para a hospedagem.
+
 ## Checklist de QA (testar no ambiente real)
 - [ ] `php -l` em todos os `.php`
 - [ ] RF-01: 5 temas por clique, arrasto e teclas 1-5; tema persiste ao recarregar

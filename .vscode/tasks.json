@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Docker: subir ambiente", "type": "shell", "command": "docker compose up -d --build", "problemMatcher": [] },
+    { "label": "Docker: parar ambiente", "type": "shell", "command": "docker compose down", "problemMatcher": [] },
+    { "label": "Docker: ver logs", "type": "shell", "command": "docker compose logs -f web", "problemMatcher": [] },
+    { "label": "Teste rápido (smoke)", "type": "shell", "command": "docker compose exec web bash docker/smoke.sh", "problemMatcher": [] },
+    { "label": "Criar usuário admin", "type": "shell",
+      "command": "docker compose exec web php docker/create-admin.php ${input:email} ${input:senha}", "problemMatcher": [] }
+  ],
+  "inputs": [
+    { "id": "email", "type": "promptString", "description": "E-mail do admin" },
+    { "id": "senha", "type": "promptString", "description": "Senha (mínimo 8 caracteres)", "password": true }
+  ]
+}
