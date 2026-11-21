@@ -1,0 +1,78 @@
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--font); color:var(--text);
+  background-color:var(--bg); background-image:var(--bg-image);
+  line-height:1.6; transition:all .4s ease; /* RF-01 */
+}
+.container{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+h1,h2,h3{line-height:1.15;margin:0 0 .5em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  backdrop-filter:var(--blur); -webkit-backdrop-filter:var(--blur);
+  transition:all .4s ease;
+}
+.btn{
+  display:inline-block; padding:.65rem 1.2rem; font:inherit; font-weight:600;
+  background:var(--accent); color:var(--on-accent); text-decoration:none; cursor:pointer;
+  border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--glow); transition:all .25s ease;
+}
+.tag{font-family:var(--font-mono);font-size:.78rem;padding:.15rem .5rem;
+  border:1px solid var(--border);border-radius:var(--radius);color:var(--muted)}
+
+/* Seletor de vinhetas (lateral direita) */
+.theme-tabs{
+  position:fixed; right:0; top:50%; transform:translateY(-50%); z-index:50;
+  display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none;
+}
+.theme-tab{
+  display:flex; align-items:center; justify-content:flex-start; gap:.5rem;
+  width:132px; height:40px; padding:0 .6rem; border:1px solid var(--border);
+  border-right:0; border-radius:var(--radius) 0 0 var(--radius);
+  background:var(--surface); color:var(--text); font:600 .8rem var(--font-mono);
+  cursor:grab; touch-action:pan-y; user-select:none;
+  transform:translateX(96px); transition:transform .25s ease, background .25s;
+}
+.theme-tab::before{content:"";width:14px;height:14px;border-radius:50%;
+  background:var(--c);flex:none;border:1px solid rgba(255,255,255,.4)}
+.theme-tab:hover,.theme-tab:focus-visible,.theme-tab[aria-pressed="true"]{transform:translateX(0)}
+.theme-tab[aria-pressed="true"]{border-color:var(--accent);box-shadow:var(--glow)}
+.theme-tab.dragging{transition:none;cursor:grabbing}
+@media (max-width:640px){.theme-tab{width:110px;transform:translateX(80px)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Quadro de stack (RF-04) */
+.stack-board{position:relative;height:340px;overflow:hidden;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.stack-badge{position:absolute;left:0;top:0;padding:.5rem 1rem;font:600 .95rem var(--font-mono);
+  background:var(--accent);color:var(--on-accent);border:1px solid var(--border);
+  border-radius:999px;box-shadow:var(--shadow),var(--glow);cursor:grab;user-select:none;
+  touch-action:none;white-space:nowrap}
+.stack-badge:active{cursor:grabbing}
+
+/* Repositórios GitHub (RF-05) */
+.repos{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.repo{padding:1rem 1.1rem}
+.repo h3{font-size:1.05rem}
+.repo-desc{color:var(--muted);margin:.25rem 0 .75rem}
+.repo-meta{display:flex;flex-wrap:wrap;gap:.4rem}
+.repo-note,.repo-empty{grid-column:1/-1;color:var(--muted)}
+
+/* Admin */
+.admin-nav{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;padding:1rem 1.25rem}
+.admin-nav form{margin-left:auto}
+.admin h2{margin-top:2rem}
+.admin-form{display:grid;gap:.9rem;padding:1.25rem;max-width:640px}
+.admin-form label{display:grid;gap:.3rem;font-weight:600}
+.admin-form input:not([type=checkbox]),.admin-form textarea{width:100%;padding:.6rem;font:inherit;font-weight:400;
+  background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--radius)}
+.admin-form .check{display:flex;gap:.5rem;align-items:center}
+.admin-row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;padding:.75rem 1rem;margin-bottom:.6rem}
+.admin-msg{padding:1rem 1.1rem;margin-bottom:.8rem}
+.flash{padding:.7rem 1rem;border:1px solid var(--accent);border-radius:var(--radius)}
+.flash-erro{border-color:#ef4444}
