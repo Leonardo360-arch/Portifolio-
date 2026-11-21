@@ -89,6 +89,6 @@ $wa = 'https://wa.me/5519978175868?text=' . rawurlencode(
 </main>
 
 <footer class="container" style="padding:3rem 1.25rem;color:var(--muted)">
-  © <?= date('Y') ?> Leonardo Marson Coral
+  © <?= date('Y') ?> Leonardo Marson Coral · <a href="admin/" rel="nofollow" style="color:inherit">Área administrativa</a>
 </footer>
 </body></html>
