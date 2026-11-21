@@ -42,6 +42,15 @@
     mouseC = M.MouseConstraint.create(engine, { mouse: mouse, constraint: { stiffness: .2, render: { visible: false } } });
     M.Composite.add(engine.world, mouseC);
 
+    // "endireita" os badges: sem isso o retangulo pode ficar de cabeca para baixo (180 graus tambem e posicao de repouso)
+    M.Events.on(engine, 'beforeUpdate', function () {
+      var TWO_PI = Math.PI * 2;
+      for (var i = 0; i < bodies.length; i++) {
+        var b = bodies[i], n = b.angle - Math.round(b.angle / TWO_PI) * TWO_PI;
+        M.Body.setAngularVelocity(b, b.angularVelocity * 0.97 - n * 0.012);
+      }
+    });
+
     if (reduced) { for (var s = 0; s < 400; s++) M.Engine.update(engine, 1000 / 60); }
     runner = M.Runner.create();
     M.Runner.run(runner, engine);

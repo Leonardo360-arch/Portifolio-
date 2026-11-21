@@ -40,7 +40,8 @@ a{color:var(--accent)}
 }
 .theme-tab::before{content:"";width:14px;height:14px;border-radius:50%;
   background:var(--c);flex:none;border:1px solid rgba(255,255,255,.4)}
-.theme-tab:hover,.theme-tab:focus-visible,.theme-tab[aria-pressed="true"]{transform:translateX(0)}
+.theme-tab[aria-pressed="true"]{transform:translateX(64px)}
+.theme-tab:hover,.theme-tab:focus-visible{transform:translateX(0)}
 .theme-tab[aria-pressed="true"]{border-color:var(--accent);box-shadow:var(--glow)}
 .theme-tab.dragging{transition:none;cursor:grabbing}
 @media (max-width:640px){.theme-tab{width:110px;transform:translateX(80px)}}
@@ -76,3 +77,6 @@ a{color:var(--accent)}
 .admin-msg{padding:1rem 1.1rem;margin-bottom:.8rem}
 .flash{padding:.7rem 1rem;border:1px solid var(--accent);border-radius:var(--radius)}
 .flash-erro{border-color:#ef4444}
+
+/* Espacamento entre secoes */
+#stack,#repositorios{padding-bottom:3.5rem}
