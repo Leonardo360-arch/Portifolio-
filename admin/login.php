@@ -35,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = 'E-mail ou senha incorretos.';
     }
 }
+$semAdmin = false;
+try { $semAdmin = (int)Database::conn()->query('SELECT COUNT(*) FROM admin_users')->fetchColumn() === 0; } catch (Throwable $e) {}
 ?><!DOCTYPE html>
 <html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -52,5 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>E-mail<br><input type="email" name="email" required autofocus style="width:100%;padding:.6rem"></label>
     <label>Senha<br><input type="password" name="senha" required style="width:100%;padding:.6rem"></label>
     <button class="btn" type="submit">Entrar</button>
+    <?php if ($semAdmin): ?><p><a href="setup.php">Ainda não há administrador: criar o primeiro</a></p><?php endif; ?>
   </form>
 </main></body></html>
