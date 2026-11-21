@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/security.php';
 send_security_headers();
+secure_session(); // antes de qualquer saida HTML: o CSRF do formulario depende do cookie de sessao
 
 $projetos = []; $cursos = []; $curriculo = null;
 try {
@@ -26,7 +27,7 @@ $wa = 'https://wa.me/5519978175868?text=' . rawurlencode(
 <link rel="stylesheet" href="assets/css/themes.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="assets/js/themes.js"></script>
-</head><body data-theme="1">
+</head><body>
 
 <header class="container hero" style="padding:14vh 1.25rem 8vh">
   <h1 style="font-size:clamp(2.2rem,6vw,4rem)">Leonardo Marson Coral</h1>

@@ -11,10 +11,11 @@
   function save(id) { try { localStorage.setItem(KEY, String(id)); } catch (e) {} }
 
   var current = read();
+  document.documentElement.setAttribute('data-theme', current); // aplica cedo: sem flash do tema padrao
   function apply(id, persist) {
     current = id;
-    document.body ? document.body.setAttribute('data-theme', id)
-                  : document.documentElement.setAttribute('data-pending-theme', id);
+    document.documentElement.setAttribute('data-theme', id);
+    if (document.body) document.body.setAttribute('data-theme', id);
     if (persist) save(id);
     document.querySelectorAll('.theme-tab').forEach(function (t) {
       t.setAttribute('aria-pressed', String(+t.dataset.themeId === id));
