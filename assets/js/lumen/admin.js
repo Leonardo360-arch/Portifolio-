@@ -1,0 +1,17 @@
+(function(){
+'use strict';
+const form=document.getElementById('lumen-admin-form');if(!form)return;
+const input=document.getElementById('lumen-admin-input'),mic=document.getElementById('lumen-mic'),status=document.getElementById('lumen-admin-status'),box=document.getElementById('lumen-admin-confirm'),yes=document.getElementById('lumen-confirm'),no=document.getElementById('lumen-cancel'),speak=document.getElementById('lumen-speak');
+let nonce=null,busy=false,recognition=null;
+function say(text){status.textContent=text;if(speak.checked&&'speechSynthesis' in window){try{window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';window.speechSynthesis.speak(u);}catch(e){}}}
+async function call(action,params={}){const data=new URLSearchParams({csrf:form.elements.csrf.value,action,...params});const res=await fetch('lumen-command-api.php',{method:'POST',body:data,credentials:'same-origin',cache:'no-store'});const result=await res.json();if(!res.ok)throw new Error(result.error||'Falha na operação.');return result;}
+function clear(){nonce=null;box.hidden=true;}
+async function run(fn){if(busy)return;busy=true;try{await fn();}catch(e){clear();say(e.message||'Falha na operação.');}finally{busy=false;}}
+const routes={'abrir projetos':'projetos.php','abrir mensagens':'dashboard.php','abrir configuracoes':'configuracoes.php','abrir treinamento':'lumen.php','iniciar entrevista':'lumen-interview.php'};
+form.addEventListener('submit',e=>{e.preventDefault();run(async()=>{if(nonce){await call('cancel');clear();}const q=input.value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[.!?]+$/,'');if(Object.hasOwn(routes,q)){location.assign(routes[q]);return;}if(q==='resumo do painel'||q==='resumo do conhecimento'){say((await call(q==='resumo do painel'?'summary':'knowledge')).message);return;}const m=q.match(/^(publicar|retirar) conhecimento (\d+)$/);if(m){const r=await call('preview',{id:m[2],operation:m[1]==='publicar'?'publish':'unpublish'});nonce=r.nonce;box.hidden=false;say(r.message);return;}say('Comando não reconhecido. Consulte a lista de comandos disponíveis.');});});
+yes.addEventListener('click',()=>run(async()=>{if(!nonce)return;const r=await call('confirm',{nonce});clear();say(r.message);}));
+no.addEventListener('click',()=>run(async()=>{const r=await call('cancel');clear();say(r.message);}));
+const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!Recognition||!window.isSecureContext){mic.disabled=true;mic.textContent='Microfone indisponível neste navegador';}
+else mic.addEventListener('click',()=>{if(recognition){recognition.abort();return;}try{const r=new Recognition();recognition=r;r.lang='pt-BR';r.continuous=false;r.interimResults=false;r.maxAlternatives=1;r.onstart=()=>{mic.textContent='Parar microfone';status.textContent='Escutando…';};r.onresult=e=>{input.value=e.results[0][0].transcript.slice(0,240);status.textContent='Comando transcrito. Revise e clique em Executar.';};r.onerror=()=>{status.textContent='Não foi possível reconhecer a voz. Utilize o campo de texto.';};r.onend=()=>{recognition=null;mic.textContent='Ativar microfone';};if('speechSynthesis' in window)window.speechSynthesis.cancel();r.start();}catch(e){recognition=null;say('Microfone indisponível.');}});
+})();
