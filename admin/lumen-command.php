@@ -13,7 +13,7 @@ admin_header('L.U.M.E.N. — Comando administrativo'); ?>
 <label>Comando<input id="lumen-admin-input" maxlength="240" required autocomplete="off" placeholder="Ex.: resumo do painel"></label>
 <button type="button" id="lumen-mic" class="btn">Ativar microfone</button>
 <button type="submit" class="btn">Executar comando</button>
-<label class="check"><input type="checkbox" id="lumen-external"> Permitir GPT nesta página (envia pergunta e conhecimentos publicados ao provedor; não inclua dados privados)</label>
+<label class="check"><input type="checkbox" id="lumen-external"> Permitir GPT nesta página (envia pergunta, conhecimentos publicados e, se necessário, indicadores administrativos e títulos de projetos ativos ao provedor; não inclua dados privados)</label>
 <label class="check"><input type="checkbox" id="lumen-speak">Ler respostas por voz do navegador</label>
 </form>
 <p id="lumen-admin-status" role="status" aria-live="polite">Disponível</p>
@@ -22,6 +22,8 @@ admin_header('L.U.M.E.N. — Comando administrativo'); ?>
 <button class="btn" type="button" id="lumen-confirm">Confirmar alteração</button>
 <button class="btn" type="button" id="lumen-cancel">Cancelar</button>
 </div>
+<h3>Consultas inteligentes com GPT (quando habilitado)</h3>
+<p>Exemplos: Quantos projetos estão ativos? Como está o treinamento? Quais projetos possuem lacunas na entrevista técnica? As consultas são somente leitura e podem consumir duas requisições.</p>
 <h3>Comandos disponíveis</h3>
 <p>Resumo do painel · resumo do conhecimento · abrir projetos · abrir mensagens · abrir configurações · abrir treinamento · iniciar entrevista · publicar conhecimento 12 · retirar conhecimento 12.</p>
 <p>Use o identificador do registro mostrado no Training Center. Comandos de publicação exigem confirmação manual.</p>
