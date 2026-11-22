@@ -78,7 +78,7 @@ admin_header('L.U.M.E.N. Training Center'); ?>
 <p>Até 200 registros mais recentes. Editar um registro publicado retorna-o a rascunho.</p>
 <?php foreach ($rows as $r): ?>
 <div class="card admin-row">
- <div style="flex:1;min-width:150px"><strong><?= e($r['title']) ?></strong><br><?= e($categories[$r['category']]) ?> · <?= $r['published']?'Publicado':'Rascunho' ?> <?= e($r['project_title'] ?? '') ?></div>
+ <div style="flex:1;min-width:150px"><strong>#<?= (int)$r['id'] ?> — <?= e($r['title']) ?></strong><br><?= e($categories[$r['category']]) ?> · <?= $r['published']?'Publicado':'Rascunho' ?> <?= e($r['project_title'] ?? '') ?></div>
  <a class="btn" href="?editar=<?= (int)$r['id'] ?>">Editar</a>
  <form method="post"><?= csrf_field() ?><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><button class="btn" name="action" value="<?= $r['published']?'unpublish':'publish' ?>"><?= $r['published']?'Retirar publicação':'Aprovar publicação' ?></button></form>
  <form method="post" onsubmit="return confirm('Excluir conhecimento definitivamente?')"><?= csrf_field() ?><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><button class="btn" name="action" value="delete">Excluir</button></form>
