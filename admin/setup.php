@@ -4,14 +4,6 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/security.php';
 secure_session(); send_security_headers();
 
-/** Acesso local (localhost / rede privada do Docker)? */
-function setup_local(): bool
-{
-    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-    if (!filter_var($ip, FILTER_VALIDATE_IP)) { return false; }
-    return !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-}
-
 $token = (string)env('SETUP_TOKEN', '');
 $erro = ''; $fatal = '';
 
@@ -24,16 +16,16 @@ if ($total > 0) {
     http_response_code(403);
     $fatal = 'A configuração inicial já foi concluída. Use o login normal.';
 }
-if (!$fatal && $token === '' && !setup_local()) {
+if (!$fatal && strlen($token) < 32) {
     http_response_code(403);
-    $fatal = 'Por segurança, em um servidor público defina SETUP_TOKEN no arquivo .env e use esse token aqui.';
+    $fatal = 'Por segurança, defina SETUP_TOKEN com pelo menos 32 caracteres no arquivo .env antes de criar o primeiro administrador.';
 }
 
 if (!$fatal && $_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $email = trim((string)($_POST['email'] ?? ''));
     $senha = (string)($_POST['senha'] ?? '');
-    if ($token !== '' && !hash_equals($token, (string)($_POST['token'] ?? ''))) { $erro = 'Token de configuração incorreto.'; }
+    if (!is_string($_POST['token'] ?? null) || !hash_equals($token, $_POST['token'])) { $erro = 'Token de configuração incorreto.'; }
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 150) { $erro = 'Informe um e-mail válido.'; }
     elseif (strlen($senha) < 8) { $erro = 'A senha precisa ter pelo menos 8 caracteres.'; }
     elseif ($senha !== (string)($_POST['senha2'] ?? '')) { $erro = 'As senhas não conferem.'; }
