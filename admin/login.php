@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hash = $u['senha_hash'] ?? '$2y$10$usesomesillystringforsaltuOq1m0S3m2Yw8Jz8p1pQ3y9K1p4q2e';
         if (password_verify($senha, $hash) && $u) {
             session_regenerate_id(true);
+            $_SESSION = [];
             $_SESSION['admin_id'] = (int)$u['id'];
             unset($_SESSION['tentativas'], $_SESSION['lock_until']);
             header('Location: dashboard.php'); exit;
