@@ -18,6 +18,29 @@ try {
  $action=$_POST['action']??'';
  require_once __DIR__.'/../config/lumen-context.php';
  if($action==='clear_context'){LumenContext::clear($_SESSION);reply(200,['message'=>'Contexto da conversa limpo.']);}
+ if($action==='learn_preview'||$action==='learn_confirm'){
+  require_once __DIR__.'/../config/lumen-learning.php';
+  if($action==='learn_preview'){
+   $raw=$_POST['content']??null;
+   if(!is_string($raw))reply(400,['error'=>'Aprendizado inválido.']);
+   try{$draft=LumenLearning::propose($raw);}catch(InvalidArgumentException $e){reply(400,['error'=>$e->getMessage()]);}
+   if(($_POST['correction']??'')==='1')$draft['category']='correcao';
+   $related=LumenLearning::related($db,$draft['content']);
+   $nonce=bin2hex(random_bytes(24));
+   unset($_SESSION['lumen_pending']);
+   $_SESSION['lumen_learning_pending']=['nonce'=>$nonce,'draft'=>$draft,'admin'=>(string)$_SESSION['admin_id'],'expires'=>time()+90];
+   reply(200,['message'=>'Revise a proposta. Salvar não publica o conhecimento.','draft'=>$draft,'related'=>$related,'nonce'=>$nonce]);
+  }
+  $pending=$_SESSION['lumen_learning_pending']??null;
+  $nonce=$_POST['nonce']??null;
+  if(!$pending||!is_string($nonce)||!hash_equals($pending['nonce'],$nonce)||$pending['expires']<time()||$pending['admin']!==(string)$_SESSION['admin_id'])reply(409,['error'=>'Confirmação inválida ou expirada.']);
+  $category=$_POST['category']??null;
+  if(!in_array($category,['personalidade','perfil','tecnico','metodologia','correcao'],true))reply(400,['error'=>'Categoria inválida.']);
+  unset($_SESSION['lumen_learning_pending']);
+  $draft=$pending['draft'];$draft['category']=$category;
+  $id=LumenLearning::save($db,$draft);
+  reply(200,['message'=>'Rascunho #'.$id.' salvo. Revise no Training Center antes de publicar.','id'=>$id]);
+ }
  if($action==='ask'){
   require_once __DIR__.'/../config/lumen-ai.php';
   $q=$_POST['question']??null;
@@ -51,6 +74,7 @@ try {
    $s=$db->prepare('SELECT id,title,category,content,source,project_id,published,updated_at FROM lumen_knowledge WHERE id=?');$s->execute([$id]);$row=$s->fetch();
    if(!$row)reply(404,['error'=>'Conhecimento não encontrado.']);
    $nonce=bin2hex(random_bytes(24));
+   unset($_SESSION['lumen_learning_pending']);
    $_SESSION['lumen_pending']=['nonce'=>$nonce,'id'=>$id,'op'=>$op,'hash'=>hash('sha256',serialize($row)),'expires'=>time()+90,'admin'=>(string)$_SESSION['admin_id']];
    reply(200,['message'=>($op==='publish'?'Aprovar publicação':'Retirar publicação').' do registro #'.$id.' — '.$row['title'].'? Revise o conteúdo no Training Center.','nonce'=>$nonce]);
   }
@@ -65,6 +89,6 @@ try {
   $db->commit();
   reply(200,['message'=>'Registro #'.$pending['id'].' atualizado.']);
  }
- if($action==='cancel'){unset($_SESSION['lumen_pending']);reply(200,['message'=>'Operação cancelada.']);}
+ if($action==='cancel'){unset($_SESSION['lumen_pending'],$_SESSION['lumen_learning_pending']);reply(200,['message'=>'Operação cancelada.']);}
  reply(400,['error'=>'Ação não autorizada.']);
 } catch(Throwable $e){if(isset($db)&&$db->inTransaction())$db->rollBack();error_log('Lumen admin: '.$e->getCode());reply(500,['error'=>'Não foi possível concluir. Verifique o banco e a migração.']);}
