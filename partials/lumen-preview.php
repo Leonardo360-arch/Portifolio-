@@ -10,10 +10,11 @@
   </svg>
   <h2 id="lumen-title">L.U.M.E.N.</h2>
   <p role="status">Disponível</p>
-  <p>Assistente local · comandos de navegação e temas</p>
+  <p>Assistente local · navegação e conhecimentos aprovados</p>
   <div class="lumen-chat">
-    <div role="log" aria-label="Conversa com Lumen" aria-live="polite" tabindex="0"><p><strong>L.U.M.E.N.:</strong> Olá! Posso apresentar as seções do portfólio. Experimente um comando.</p></div>
+    <div role="log" aria-label="Conversa com Lumen" aria-live="polite" tabindex="0"><p><strong>L.U.M.E.N.:</strong> Olá! Posso apresentar as seções do portfólio e consultar informações aprovadas sobre projetos e perfil.</p></div>
     <form>
+      <?= csrf_field() ?>
       <label for="lumen-message">Sua mensagem</label>
       <input id="lumen-message" maxlength="240" required autocomplete="off" placeholder="Ex.: ver projetos">
       <button class="btn" type="submit">Enviar</button>
