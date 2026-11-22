@@ -23,3 +23,14 @@ main section[id]{scroll-margin-top:7rem}
 @media(max-width:760px){.lmc-hero{grid-template-columns:1fr;gap:1.5rem}.lmc-nav{position:static}.lmc-links{gap:.5rem 1rem}main section[id]{scroll-margin-top:1rem}.lmc-stage{padding:1rem}}
 @media(max-width:1200px){body{padding-right:40px}.theme-tabs{max-width:132px}}
 @media(prefers-reduced-motion:reduce){.lumen-ring{animation:none}}
+
+.lumen-chat{text-align:left;margin-top:1rem}
+.lumen-chat [role=log]{max-height:14rem;overflow:auto;overflow-wrap:anywhere;border:1px solid var(--border);border-radius:var(--radius);padding:.65rem;background:var(--bg)}
+.lumen-chat [role=log] p{margin:.35rem 0;color:var(--text)}
+.lumen-chat form{display:grid;gap:.5rem;margin-top:.7rem}
+.lumen-chat input{width:100%;min-width:0;padding:.7rem;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+.lumen-quick{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.lumen-quick button{font:inherit;font-size:.8rem;padding:.4rem .6rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer}
+.lmc-stage[data-state=processing] .lumen-ring{animation-duration:3s}
+.lmc-stage[data-state=responding] .lumen-orb{filter:drop-shadow(0 0 12px var(--accent))}
+@media(prefers-reduced-motion:reduce){.lmc-stage[data-state=processing] .lumen-ring{animation:none}}
