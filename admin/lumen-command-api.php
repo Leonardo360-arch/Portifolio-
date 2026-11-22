@@ -16,6 +16,13 @@ try {
  $a=$db->prepare('SELECT id FROM admin_users WHERE id=?');$a->execute([$_SESSION['admin_id']]);
  if(!$a->fetchColumn())reply(403,['error'=>'Administrador não autorizado.']);
  $action=$_POST['action']??'';
+ if($action==='ask'){
+  require_once __DIR__.'/../config/lumen-knowledge.php';
+  $q=$_POST['question']??null;
+  if(!is_string($q)||trim($q)===''||mb_strlen($q)>240)reply(400,['error'=>'Pergunta inválida.']);
+  $service=new LumenKnowledge($db);
+  reply(200,['message'=>LumenKnowledge::answer($service->search($q))]);
+ }
  if($action==='summary'){
   $p=(int)$db->query('SELECT COUNT(*) FROM projetos')->fetchColumn();
   $m=(int)$db->query('SELECT COUNT(*) FROM mensagens WHERE lida=0')->fetchColumn();
