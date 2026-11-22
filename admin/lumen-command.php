@@ -13,9 +13,12 @@ admin_header('L.U.M.E.N. — Comando administrativo'); ?>
 <label>Comando<input id="lumen-admin-input" maxlength="240" required autocomplete="off" placeholder="Ex.: resumo do painel"></label>
 <button type="button" id="lumen-mic" class="btn">Ativar microfone</button>
 <button type="submit" class="btn">Executar comando</button>
-<label class="check"><input type="checkbox" id="lumen-external"> Permitir GPT nesta página (envia pergunta, conhecimentos publicados e, se necessário, indicadores administrativos e títulos de projetos ativos ao provedor; não inclua dados privados)</label>
+<label class="check"><input type="checkbox" id="lumen-external"> Permitir GPT nesta página (envia pergunta, perfil profissional aprovado, contexto se autorizado, conhecimentos publicados e, se necessário, indicadores administrativos e títulos de projetos ativos ao provedor; não inclua dados privados)</label>
+<label class="check"><input type="checkbox" id="lumen-remember"> Manter contexto temporário (até quatro interações, por 30 minutos de inatividade; se GPT autorizado, o contexto será enviado)</label>
+<button type="button" class="btn" id="lumen-clear-context">Limpar conversa</button>
 <label class="check"><input type="checkbox" id="lumen-speak">Ler respostas por voz do navegador</label>
 </form>
+<div class="lumen-chat"><div id="lumen-admin-log" role="log" aria-label="Conversa administrativa" aria-live="polite" tabindex="0"></div></div>
 <p id="lumen-admin-status" role="status" aria-live="polite">Disponível</p>
 <div id="lumen-admin-confirm" hidden>
 <p>Confirme somente após revisar o registro. A publicação poderá disponibilizar informações ao assistente público futuramente.</p>
