@@ -38,6 +38,10 @@ final class LumenKnowledge
         $rows=$this->db->query("SELECT k.id,k.title,k.category,LEFT(k.content,4000) AS content,p.titulo AS project_title FROM lumen_knowledge k LEFT JOIN projetos p ON p.id=k.project_id WHERE k.published=1 AND (k.project_id IS NULL OR p.ativo=1) ORDER BY k.updated_at DESC,k.id DESC LIMIT 300")->fetchAll();
         return self::rank($question,$rows);
     }
+    public function personality(): array
+    {
+        return $this->db->query("SELECT id,title,category,LEFT(content,600) AS content FROM lumen_knowledge WHERE published=1 AND project_id IS NULL AND category IN ('personalidade','perfil','metodologia','correcao') ORDER BY updated_at DESC,id DESC LIMIT 6")->fetchAll();
+    }
     public static function answer(array $rows): string
     {
         if(!$rows)return 'Não encontrei conhecimento aprovado suficiente para responder. Você pode entrar em contato com o desenvolvedor.';
