@@ -27,18 +27,27 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <link rel="stylesheet" href="assets/css/themes.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/portfolio-v3.css">
 <script src="assets/js/themes.js"></script>
 </head><body>
 
-<header class="container hero" style="padding:14vh 1.25rem 8vh">
-  <h1 style="font-size:clamp(2.2rem,6vw,4rem)"><?= e($cfg['hero_nome']) ?></h1>
-  <p style="max-width:56ch;font-size:1.15rem;color:var(--muted)">
+<nav class="lmc-nav" aria-label="Navegação principal"><div class="container">
+  <a class="lmc-brand" href="#inicio">LMC.</a>
+  <div class="lmc-links"><a href="#projetos">Projetos</a><?php if ($cursos): ?><a href="#cursos">Formação</a><?php endif; ?><a href="#stack">Tecnologias</a><a href="#repositorios">GitHub</a><a href="#contato">Contato</a></div>
+</div></nav>
+<header id="inicio" class="container hero lmc-hero">
+  <div>
+  <p class="lmc-eyebrow">Desenvolvimento &amp; engenharia de software</p>
+  <h1><?= e($cfg['hero_nome']) ?></h1>
+  <p class="lmc-hero-copy">
     <?= e($cfg['hero_texto']) ?></p>
-  <p style="display:flex;gap:.75rem;flex-wrap:wrap">
+  <p class="lmc-actions">
     <a class="btn" href="#projetos">Ver projetos</a>
     <a class="btn" href="<?= e($wa) ?>" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
     <?php if ($curriculo): ?><a class="btn" href="<?= e($curriculo) ?>" target="_blank" rel="noopener">Baixar currículo</a><?php endif; ?>
   </p>
+  </div>
+  <?php include __DIR__ . '/partials/lumen-preview.php'; ?>
 </header>
 
 <?php include __DIR__ . '/partials/theme-tabs.php'; ?>
@@ -49,7 +58,7 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
     <?php if (!$projetos): ?>
       <p style="color:var(--muted)">Os projetos serão publicados em breve.</p>
     <?php else: ?>
-    <div class="repos" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+    <div class="repos lmc-projects">
       <?php foreach ($projetos as $p): ?>
       <article class="card" style="overflow:hidden;display:flex;flex-direction:column">
         <img src="<?= e($p['imagem_print']) ?>" alt="Captura de tela do projeto <?= e($p['titulo']) ?>"
