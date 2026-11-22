@@ -1,0 +1,25 @@
+/* Portfolio v3: public layout, shared theme tokens. */
+.lmc-nav{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border)}
+.lmc-nav .container{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-block:.85rem}
+.lmc-nav a{text-decoration:none;color:var(--text)}
+.lmc-nav .lmc-brand{font-weight:700;color:var(--accent);font-family:var(--font-mono)}
+.lmc-links{display:flex;gap:.75rem 1.25rem;flex-wrap:wrap;font-size:.9rem}
+.lmc-links a:hover{text-decoration:underline}
+.lmc-hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:center;gap:2rem;padding-block:clamp(2.5rem,7vw,6rem)}
+.lmc-hero h1{font-size:clamp(2rem,5vw,3.8rem);overflow-wrap:anywhere}
+.lmc-eyebrow{font:600 .8rem var(--font-mono);color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.lmc-hero-copy{max-width:56ch;color:var(--muted);font-size:1.1rem}
+.lmc-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.lmc-projects{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.lmc-projects .card{min-width:0;overflow-wrap:anywhere}
+main section[id]{scroll-margin-top:7rem}
+.lmc-stage{padding:1.5rem;text-align:center;min-width:0}
+.lmc-stage h2{letter-spacing:.25em;font:700 1.4rem var(--font-mono);color:var(--accent)}
+.lmc-stage p{color:var(--muted);font-size:.9rem}
+.lumen-orb{display:block;width:min(100%,240px);height:auto;margin:0 auto 1rem;color:var(--accent)}
+.lumen-ring{fill:none;stroke:currentColor;transform-origin:120px 120px;animation:lumen-spin 24s linear infinite}
+.lumen-ring.reverse{animation-direction:reverse;animation-duration:18s}
+@keyframes lumen-spin{to{transform:rotate(360deg)}}
+@media(max-width:760px){.lmc-hero{grid-template-columns:1fr;gap:1.5rem}.lmc-nav{position:static}.lmc-links{gap:.5rem 1rem}main section[id]{scroll-margin-top:1rem}.lmc-stage{padding:1rem}}
+@media(max-width:1200px){body{padding-right:40px}.theme-tabs{max-width:132px}}
+@media(prefers-reduced-motion:reduce){.lumen-ring{animation:none}}
