@@ -16,13 +16,22 @@ try {
  $a=$db->prepare('SELECT id FROM admin_users WHERE id=?');$a->execute([$_SESSION['admin_id']]);
  if(!$a->fetchColumn())reply(403,['error'=>'Administrador não autorizado.']);
  $action=$_POST['action']??'';
+ require_once __DIR__.'/../config/lumen-context.php';
+ if($action==='clear_context'){LumenContext::clear($_SESSION);reply(200,['message'=>'Contexto da conversa limpo.']);}
  if($action==='ask'){
   require_once __DIR__.'/../config/lumen-ai.php';
   $q=$_POST['question']??null;
   if(!is_string($q)||trim($q)===''||mb_strlen($q)>240)reply(400,['error'=>'Pergunta inválida.']);
   $service=new LumenAI($db);
-  session_write_close();
-  reply(200,$service->answer($q,($_POST['external']??'')==='1'));
+  $admin=(string)$_SESSION['admin_id'];
+  $external=($_POST['external']??'')==='1';
+  $remember=($_POST['remember']??'')==='1';
+  if(!$remember)LumenContext::clear($_SESSION);
+  $context=$remember?LumenContext::read($_SESSION,$admin):[];
+  // Keep session lock until the bounded request ends to serialize clear/append.
+  $result=$service->answer($q,$external,$context);
+  if($remember)LumenContext::append($_SESSION,$admin,$q,$result['message']);
+  reply(200,$result);
  }
  if($action==='summary'){
   $p=(int)$db->query('SELECT COUNT(*) FROM projetos')->fetchColumn();
