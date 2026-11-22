@@ -1,0 +1,27 @@
+name: Lumen QA
+on:
+  push:
+    branches: [feat/portfolio-v3-lumen]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  static-and-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, curl, pdo_mysql
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: PHP syntax
+        run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: JavaScript syntax
+        run: find assets/js -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Command tests
+        run: node tests/lumen/core.test.cjs
+      - name: Knowledge and context tests
+        run: php tests/lumen/knowledge.test.php
