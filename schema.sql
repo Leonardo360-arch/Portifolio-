@@ -62,3 +62,8 @@ CREATE TABLE IF NOT EXISTS lumen_knowledge (
  CONSTRAINT fk_lumen_project FOREIGN KEY (project_id) REFERENCES projetos(id) ON DELETE CASCADE,
  INDEX idx_lumen_public (published,category)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS lumen_ai_usage (
+ usage_day DATE PRIMARY KEY,
+ requests INT UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
