@@ -1,0 +1,11 @@
+# Motor de conhecimento — fase local
+
+Implementação: config/lumen-knowledge.php, api/lumen-knowledge.php, interface pública e ação autenticada ask no admin. Busca lexical em português, com pesos para título, projeto e conteúdo; consulta até 300 registros recentes, retorna até 3 resultados, com excertos e IDs. Apenas publicados e vinculados a projetos ativos (ou sem vínculo). Não é busca semântica nem conversação contextual. Não expõe campo fonte, rascunhos ou mensagens administrativas. Registros publicados devem ser considerados públicos. A consulta administrativa nesta fase usa o mesmo escopo público; operações administrativas existentes permanecem separadas.
+
+API pública POST: question até 240 caracteres, csrf de sessão, limite de 12 consultas/minuto por sessão (não constitui proteção robusta contra abuso distribuído). Falha de banco retorna indisponibilidade. Não há nova migração; depende da 001. Nenhuma chamada externa ou GPT ativado.
+
+## Contrato proposto para GPT (ainda não implementado)
+Orquestrador no backend recebe pergunta, recupera registros aprovados e passa somente o contexto necessário ao provedor. Adaptador de geração separado da recuperação. Resposta fundamentada em IDs válidos; ausência de evidência deve ser declarada. Conteúdo recuperado tratado como dados não confiáveis, nunca como instruções. Ferramentas administrativas em lista fechada, autorização no servidor e confirmação independente para mudanças. Não enviar rascunhos, mensagens ou segredos a provedor por padrão. Antes de habilitar: aprovação de modelo e orçamento, chave fora do Git, limite persistente global e por cliente, timeout, controle de gastos, revisão de privacidade e fallback local. Não há integração GPT funcional nesta fase.
+
+## QA pendente
+Testar consulta com e sem conhecimento; acentos, correspondência ambígua, projetos inativos, rascunhos, exclusão e retirada de publicação, HTML como texto, POST/CSRF/limites, indisponibilidade de banco, integração navegador e regressão dos comandos. Verificar custo de consultas e cobertura de registros além do limite. Testes dinâmicos e sintáticos não executados nesta etapa. Main preservada.
