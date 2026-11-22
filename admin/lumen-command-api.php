@@ -17,11 +17,12 @@ try {
  if(!$a->fetchColumn())reply(403,['error'=>'Administrador não autorizado.']);
  $action=$_POST['action']??'';
  if($action==='ask'){
-  require_once __DIR__.'/../config/lumen-knowledge.php';
+  require_once __DIR__.'/../config/lumen-ai.php';
   $q=$_POST['question']??null;
   if(!is_string($q)||trim($q)===''||mb_strlen($q)>240)reply(400,['error'=>'Pergunta inválida.']);
-  $service=new LumenKnowledge($db);
-  reply(200,['message'=>LumenKnowledge::answer($service->search($q))]);
+  $service=new LumenAI($db);
+  session_write_close();
+  reply(200,$service->answer($q,($_POST['external']??'')==='1'));
  }
  if($action==='summary'){
   $p=(int)$db->query('SELECT COUNT(*) FROM projetos')->fetchColumn();
