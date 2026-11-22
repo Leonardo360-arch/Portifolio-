@@ -4,8 +4,9 @@ declare(strict_types=1);
 function secure_session(): void
 {
     if (session_status() === PHP_SESSION_ACTIVE) { return; }
-    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-          || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => $https,
                                'httponly' => true, 'samesite' => 'Lax']);
     session_name('lmc_sid');
@@ -40,7 +41,7 @@ function csrf_field(): string { return '<input type="hidden" name="csrf" value="
 function csrf_check(): void
 {
     secure_session();
-    $ok = isset($_POST['csrf'], $_SESSION['csrf']) && hash_equals($_SESSION['csrf'], (string)$_POST['csrf']);
+    $ok = is_string($_POST['csrf'] ?? null) && is_string($_SESSION['csrf'] ?? null) && hash_equals($_SESSION['csrf'], $_POST['csrf']);
     if (!$ok) { http_response_code(419); exit('Sessão expirada ou requisição inválida. Volte e tente de novo.'); }
 }
 
