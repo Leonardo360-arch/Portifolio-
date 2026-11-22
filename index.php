@@ -35,7 +35,7 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
 
 <nav class="lmc-nav" aria-label="Navegação principal"><div class="container">
   <a class="lmc-brand" href="#inicio">LMC.</a>
-  <div class="lmc-links"><a href="#projetos">Projetos</a><?php if ($cursos): ?><a href="#cursos">Formação</a><?php endif; ?><a href="#stack">Tecnologias</a><a href="#repositorios">GitHub</a><a href="#contato">Contato</a></div>
+  <div class="lmc-links"><a href="#projetos">Projetos</a><?php if ($cursos): ?><a href="#cursos">Formação</a><?php endif; ?><a href="#stack">Tecnologias</a><a href="#repositorios">GitHub</a><a href="#contato">Contato</a><a href="recrutador.php">Para recrutadores</a></div>
 </div></nav>
 <header id="inicio" class="container hero lmc-hero">
   <div>
@@ -45,6 +45,7 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
     <?= e($cfg['hero_texto']) ?></p>
   <p class="lmc-actions">
     <a class="btn" href="#projetos">Ver projetos</a>
+    <a class="btn" href="recrutador.php">Pré-entrevista com L.U.M.E.N.</a>
     <a class="btn" href="<?= e($wa) ?>" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
     <?php if ($curriculo): ?><a id="lmc-resume" class="btn" href="<?= e($curriculo) ?>" target="_blank" rel="noopener">Baixar currículo</a><?php endif; ?>
   </p>
