@@ -29,6 +29,8 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/portfolio-v3.css">
 <script src="assets/js/themes.js"></script>
+<script src="assets/js/lumen/core.js" defer></script>
+<script src="assets/js/lumen/interface.js" defer></script>
 </head><body>
 
 <nav class="lmc-nav" aria-label="Navegação principal"><div class="container">
@@ -44,7 +46,7 @@ $wa = 'https://wa.me/' . $cfg['whatsapp'] . '?text=' . rawurlencode($cfg['whatsa
   <p class="lmc-actions">
     <a class="btn" href="#projetos">Ver projetos</a>
     <a class="btn" href="<?= e($wa) ?>" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
-    <?php if ($curriculo): ?><a class="btn" href="<?= e($curriculo) ?>" target="_blank" rel="noopener">Baixar currículo</a><?php endif; ?>
+    <?php if ($curriculo): ?><a id="lmc-resume" class="btn" href="<?= e($curriculo) ?>" target="_blank" rel="noopener">Baixar currículo</a><?php endif; ?>
   </p>
   </div>
   <?php include __DIR__ . '/partials/lumen-preview.php'; ?>
