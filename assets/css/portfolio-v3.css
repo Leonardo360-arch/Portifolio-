@@ -34,3 +34,5 @@ main section[id]{scroll-margin-top:7rem}
 .lmc-stage[data-state=processing] .lumen-ring{animation-duration:3s}
 .lmc-stage[data-state=responding] .lumen-orb{filter:drop-shadow(0 0 12px var(--accent))}
 @media(prefers-reduced-motion:reduce){.lmc-stage[data-state=processing] .lumen-ring{animation:none}}
+
+.recruiter-shell{padding-block:2rem 4rem}.recruiter-shell header{max-width:75ch;margin-block:2rem}.recruiter-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:1.25rem;align-items:start}.recruiter-topics,.recruiter-conversation{padding:1.25rem;min-width:0;margin:0}.recruiter-topics label{display:block;margin-top:1.5rem}.recruiter-topics select{width:100%;padding:.65rem;margin-block:.5rem;color:var(--text);background:var(--bg);border:1px solid var(--border)}.recruiter-conversation [role=log]{max-height:25rem;min-height:12rem;white-space:pre-wrap}.recruiter-conversation input[type=checkbox]{width:auto}.recruiter-conversation button{margin-top:.5rem}@media(max-width:760px){.recruiter-grid{grid-template-columns:1fr}}
