@@ -61,6 +61,7 @@ $edit = ['id'=>0,'category'=>'personalidade','project_id'=>null,'title'=>'','con
 $id = filter_var($_GET['editar'] ?? '0', FILTER_VALIDATE_INT, ['options'=>['min_range'=>0]]);
 if ($id) { $s=$db->prepare('SELECT id,category,project_id,title,content,source FROM lumen_knowledge WHERE id=?'); $s->execute([$id]); $edit=$s->fetch() ?: $edit; }
 admin_header('L.U.M.E.N. Training Center'); ?>
+<p><a class="btn" href="lumen-interview.php">Iniciar entrevista de treinamento</a></p>
 <p>Cadastre fatos profissionais, exemplos de respostas e decisões. Não inclua senhas, dados privados ou informações de terceiros sem autorização. Publicar marca o registro como aprovado para futura consulta pelo assistente; a integração pública ainda não está ativa.</p>
 <form method="post" class="card admin-form">
  <?= csrf_field() ?><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= (int)$edit['id'] ?>">
