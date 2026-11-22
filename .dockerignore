@@ -1,3 +1,6 @@
 .git
 uploads/*
 !uploads/.gitkeep
+
+.env
+.env.*
