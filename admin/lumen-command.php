@@ -13,6 +13,7 @@ admin_header('L.U.M.E.N. — Comando administrativo'); ?>
 <label>Comando<input id="lumen-admin-input" maxlength="240" required autocomplete="off" placeholder="Ex.: resumo do painel"></label>
 <button type="button" id="lumen-mic" class="btn">Ativar microfone</button>
 <button type="submit" class="btn">Executar comando</button>
+<label class="check"><input type="checkbox" id="lumen-external"> Permitir GPT nesta página (envia pergunta e conhecimentos publicados ao provedor; não inclua dados privados)</label>
 <label class="check"><input type="checkbox" id="lumen-speak">Ler respostas por voz do navegador</label>
 </form>
 <p id="lumen-admin-status" role="status" aria-live="polite">Disponível</p>
