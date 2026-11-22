@@ -25,6 +25,14 @@ admin_header('L.U.M.E.N. — Comando administrativo'); ?>
 <button class="btn" type="button" id="lumen-confirm">Confirmar alteração</button>
 <button class="btn" type="button" id="lumen-cancel">Cancelar</button>
 </div>
+<div id="lumen-learn-preview" hidden>
+<h3>Revisar aprendizado</h3><p id="lumen-learn-content"></p>
+<label>Categoria<select id="lumen-learn-category"><option value="personalidade">Personalidade</option><option value="perfil">Perfil</option><option value="tecnico">Técnico</option><option value="metodologia">Metodologia</option><option value="correcao">Correção</option></select></label>
+<p id="lumen-learn-related"></p><p>Registros relacionados não significam contradição comprovada. Revise antes de publicar.</p>
+<button type="button" class="btn" id="lumen-learn-save">Salvar rascunho</button>
+<button type="button" class="btn" id="lumen-learn-cancel">Cancelar</button>
+</div>
+<h3>Aprendizado por conversa</h3><p>Diga ou digite: “Lumen, aprenda que valorizo a ética” ou “Lumen, corrija: minha formação está em andamento”. Revise a transcrição e confirme o rascunho. Não inclua dados privados. Aprendizados vinculados a projetos podem ser cadastrados pelo Training Center.</p>
 <h3>Consultas inteligentes com GPT (quando habilitado)</h3>
 <p>Exemplos: Quantos projetos estão ativos? Como está o treinamento? Quais projetos possuem lacunas na entrevista técnica? As consultas são somente leitura e podem consumir duas requisições.</p>
 <h3>Comandos disponíveis</h3>
