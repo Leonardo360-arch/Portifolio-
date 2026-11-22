@@ -13,6 +13,7 @@
   var current = read();
   document.documentElement.setAttribute('data-theme', current); // aplica cedo: sem flash do tema padrao
   function apply(id, persist) {
+    if (!Number.isInteger(id) || id < 1 || id > MAX) return false;
     current = id;
     document.documentElement.setAttribute('data-theme', id);
     if (document.body) document.body.setAttribute('data-theme', id);
@@ -21,6 +22,7 @@
       t.setAttribute('aria-pressed', String(+t.dataset.themeId === id));
     });
     document.dispatchEvent(new CustomEvent('themechange', { detail: { id: id } }));
+    return true;
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -58,5 +60,5 @@
     });
   });
 
-  window.LMCTheme = { get: function () { return current; }, set: function (n) { apply(n, true); } };
+  window.LMCTheme = { get: function () { return current; }, set: function (n) { return apply(n, true); } };
 })();
