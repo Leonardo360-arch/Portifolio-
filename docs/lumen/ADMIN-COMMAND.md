@@ -1,0 +1,7 @@
+# Lumen Admin — comandos autenticados
+
+Acesso: admin/lumen-command.php pelo menu administrativo. Reconhecimento de voz Web Speech API, pt-BR, mediante clique e permissão; transcrição deve ser revisada e enviada manualmente. Navegador pode utilizar serviço remoto de reconhecimento; não ditar segredos. Síntese opcional do navegador, não voz clonada. Texto permanece disponível. Sem nova migração, depende da 001 para conhecimentos.
+
+Ações permitidas: navegação por rotas fixas, resumo de projetos/mensagens não lidas, resumo de conhecimento, publicação e retirada por identificador. API POST com sessão, verificação de admin existente, CSRF, consultas preparadas e lista fechada. Alterações exigem nonce de uso único, 90 segundos, confirmação manual e revalidação de conteúdo em transação. Não há exclusão, shell, SQL arbitrário, criação de contas, edição de projetos por voz ou acesso a dados privados por assistente público. Não há log persistente de auditoria nesta versão.
+
+QA pendente: testar 401/403/419/405, comandos inválidos, ID inexistente, nonce expirado/reutilizado, mudança concorrente de registro, cancelamento, ausência de tabela, permissão de microfone negada, navegador incompatível e síntese desativada. Validar sessão e segurança existentes antes de produção. Revisar conteúdo no Training Center antes de aprovar. Main preservada. Sem contratação de API. Testes dinâmicos não executados.
